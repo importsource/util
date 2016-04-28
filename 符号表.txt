@@ -1,0 +1,7 @@
+[符号]          [符号类型信息]
+
+AND			id
+entity			id
+type			id
+nvl			id
+not			id
