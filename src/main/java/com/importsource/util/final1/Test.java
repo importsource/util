@@ -15,6 +15,6 @@ class Test {
     }
 
     public void setFoo(List foo) {
-//      this.foo = foo;  //compile time error.
+//      this.foo = foo;  //compile time error.这里你把注释去掉，编译器无法编译通过
     }
 }
