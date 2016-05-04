@@ -3,6 +3,7 @@ package com.importsource.util.serializable.transient1;
 import java.io.*;
 
 public class Demo {
+	
 	public static void main(String[] args) throws Exception {
 		writeObj();
 		readObj();
@@ -22,7 +23,6 @@ public class Demo {
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("obj.txt"));
 
 		Person p = (Person) (ois.readObject());
-
 		sop(p.toString());
 
 	}
