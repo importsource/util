@@ -14,6 +14,7 @@ public class ComparableDemo01 {
                 new Student("sunliu",22,100.0f),
                 new Student("sunwu",22,101.0f)        
         };
+        //核心点在这里，就是你可以排序啦。
         java.util.Arrays.sort(stu);
         for(Student s:stu)
         {
