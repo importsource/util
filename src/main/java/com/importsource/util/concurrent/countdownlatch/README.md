@@ -26,6 +26,32 @@ public static void main(String[] args) throws InterruptedException {
 	}
 ```
 
+```java
+
+static class Worker implements Runnable {
+		private final CountDownLatch doneSignal;
+		private final CountDownLatch startSignal;
+		private int index;
+
+		Worker(int index, CountDownLatch doneSignal, CountDownLatch startSignal) {
+			this.index = index;
+			this.startSignal = startSignal;
+			this.doneSignal = doneSignal;
+		}
+
+		public void run() {
+			try {
+				startSignal.await(); // 等待开始执行信号的发布
+				System.out.println("sdfsdfsdf"+index);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				doneSignal.countDown();
+			}
+		}
+	}
+
+```
 输出结果是一个顺序的，阻塞的状态：
 
 ```log
@@ -97,3 +123,38 @@ sdfsdfsdf9
 sdfsdfsdf10
 
 ```
+
+
+现在我们来一步步复盘CountDownLatch执行顺序。
+
+1、首先我们定义了`CountDownLatch doneSignal = new CountDownLatch(N);`。完成信号。
+
+2、然后我们定义了`CountDownLatch startSignal = new CountDownLatch(1);`。开始信号。
+
+3、然后我们使用`for`循环来启动10个线程。我们分别把完成信号和开始信号传入线程。像这样：
+  
+  ```java
+  
+  for (int i = 1; i <= N; i++) {
+	new Thread(new Worker(i,doneSignal, startSignal)).start();// 线程启动了
+  }
+  
+  ```
+  
+ 4、线程按理说已经开始执行了。然而，我们发现在`Work`类中的`run`方法里有这样一句话：
+ 
+ ```java
+    startSignal.await(); // 等待开始执行信号的发布
+ ```
+    这句话导致了我们之前启动的10个线程全都处于等待状态，他们正在等待发号施令。万事俱备，只欠东风！
+ 
+ 5、现在你也许已经想到了下一步要干啥了。给东风呗，让10个线程run起来了，没错，通过一句话就可以了：
+ 
+   ```java
+   startSignal.countDown();// 开始执行啦
+   ```
+   
+   我们通过`countDown()`已经让10个线程跑起来。
+   
+   
+ 6、
