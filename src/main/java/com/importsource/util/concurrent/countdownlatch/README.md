@@ -7,9 +7,6 @@ A synchronization aid that allows one or more threads to wait until a set of ope
 它提供了一种同步机制，可以允许一个或多个线程等待直到其他的线程上的一系列操作完成。
 
 
-A CountDownLatch is initialized with a given count. The await methods block until the current count reaches zero due to invocations of the countDown method, after which all waiting threads are released and any subsequent invocations of await return immediately. This is a one-shot phenomenon -- the count cannot be reset. If you need a version that resets the count, consider using a CyclicBarrier.
-
-
 使用了CountDownLatch后，像下面这样：
 
 ``` java
