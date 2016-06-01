@@ -22,6 +22,58 @@ A synchronization aid that allows one or more threads to wait until a set of ope
 
 1、Use CountDownLatch when one of Thread like main thread, require to wait for one or more thread to complete, before its start doing processing.
 
+当我们希望main线程里，必须等待其他线程执行完以后然后继续往下执行。这个时候，我们就需要用到`CountDownLatch`。
+
+按照上面的需求，在你不知道CountDownLatch之前，你也许会这样写你的代码：
+
+```java
+
+public static void main(String[] args) throws InterruptedException {
+	System.out.println("start");
+	for (int i = 1; i <= N; i++) {
+		new Thread(new Worker(i)).start();// 线程启动了
+	}
+	System.out.println("end");
+}
+	
+```
+
+我们希望输出这样的结果：
+
+ ```log
+ 
+ start
+sdfsdfsdf1
+sdfsdfsdf2
+sdfsdfsdf3
+sdfsdfsdf4
+sdfsdfsdf5
+sdfsdfsdf6
+sdfsdfsdf7
+sdfsdfsdf8
+sdfsdfsdf9
+sdfsdfsdf10
+end
+
+ ```
+然而真正的输出结果是这样的：
+
+```log
+
+start
+end
+sdfsdfsdf1
+sdfsdfsdf2
+sdfsdfsdf3
+sdfsdfsdf4
+sdfsdfsdf5
+sdfsdfsdf6
+sdfsdfsdf7
+sdfsdfsdf8
+sdfsdfsdf9
+sdfsdfsdf10
+
+```
 
 
 
