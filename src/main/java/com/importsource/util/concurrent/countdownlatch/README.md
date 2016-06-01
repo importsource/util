@@ -188,9 +188,9 @@ Ok
     
   ```java
     
-    	System.out.println("begin------------");
-		startSignal.countDown();// 开始执行啦
-		doneSignal.await();// 等待所有的线程执行完毕
-		System.out.println("Ok");
+   System.out.println("begin------------");
+   startSignal.countDown();// 开始执行啦
+   doneSignal.await();// 等待所有的线程执行完毕
+   System.out.println("Ok");
 		
   ```
