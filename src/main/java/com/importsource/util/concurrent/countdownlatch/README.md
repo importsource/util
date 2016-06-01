@@ -41,11 +41,11 @@ public class NormalThreadDemo {
 	private static final int N = 10;
 
 	public static void main(String[] args) throws InterruptedException {
-		System.out.println("[主线程]开始做事情：");
+		System.out.println("[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：");
 		for (int i = 1; i <= N; i++) {
 			new Thread(new Worker(i)).start();// 线程启动了
 		}
-		System.out.println("[主线程]ok！所有事情完成！");
+		System.out.println("[主线程]我：ok！都上完了，我们就走吧！");
 	}
 
 	static class Worker implements Runnable {
@@ -56,10 +56,11 @@ public class NormalThreadDemo {
 		}
 
 		public void run() {
-			System.out.println("[子线程]做第"+index+"件事情！");
+			System.out.println("[子线程]第"+index+"位小伙伴去上厕所了");
 		}
 	}
 }
+
 
 	
 ```
@@ -68,18 +69,19 @@ public class NormalThreadDemo {
 
  ```log
  
-[主线程]开始做事情：
-[子线程]做第1件事情！
-[子线程]做第2件事情！
-[子线程]做第3件事情！
-[子线程]做第4件事情！
-[子线程]做第5件事情！
-[子线程]做第6件事情！
-[子线程]做第7件事情！
-[子线程]做第8件事情！
-[子线程]做第9件事情！
-[子线程]做第10件事情！
-[主线程]ok！所有事情完成！
+[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：
+[子线程]第1位小伙伴去上厕所了
+[子线程]第2位小伙伴去上厕所了
+[子线程]第3位小伙伴去上厕所了
+[子线程]第4位小伙伴去上厕所了
+[子线程]第5位小伙伴去上厕所了
+[子线程]第6位小伙伴去上厕所了
+[子线程]第7位小伙伴去上厕所了
+[子线程]第8位小伙伴去上厕所了
+[子线程]第9位小伙伴去上厕所了
+[子线程]第10位小伙伴去上厕所了
+[主线程]我：ok！都上完了，我们就走吧！
+
 
 
  ```
@@ -87,18 +89,19 @@ public class NormalThreadDemo {
 
 ```log
 
-[主线程]开始做事情：
-[主线程]ok！所有事情完成！
-[子线程]做第1件事情！
-[子线程]做第2件事情！
-[子线程]做第3件事情！
-[子线程]做第4件事情！
-[子线程]做第5件事情！
-[子线程]做第6件事情！
-[子线程]做第7件事情！
-[子线程]做第8件事情！
-[子线程]做第9件事情！
-[子线程]做第10件事情！
+[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：
+[主线程]我：ok！都上完了，我们就走吧！
+[子线程]第1位小伙伴去上厕所了
+[子线程]第2位小伙伴去上厕所了
+[子线程]第3位小伙伴去上厕所了
+[子线程]第4位小伙伴去上厕所了
+[子线程]第5位小伙伴去上厕所了
+[子线程]第6位小伙伴去上厕所了
+[子线程]第7位小伙伴去上厕所了
+[子线程]第8位小伙伴去上厕所了
+[子线程]第9位小伙伴去上厕所了
+[子线程]第10位小伙伴去上厕所了
+
 
 
 ```
@@ -124,13 +127,13 @@ public class SimpleCountDownLatchDemo {
 			new Thread(new Worker(i,doneSignal, startSignal)).start();// 线程启动了
 		}
 		
-		System.out.println("[主线程]开始做事情：");
+		System.out.println("[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：");
 		startSignal.countDown();// 开始执行啦
 		
 		
 		doneSignal.await();// 等待所有的线程执行完毕
-		System.out.println("[主线程]做事情的实时count："+doneSignal.getCount());
-		System.out.println("[主线程]ok！所有事情完成！");
+		System.out.println("[主线程]还有："+doneSignal.getCount()+"个人在排队");
+		System.out.println("[主线程]我：ok！都上完了，我们就走吧！");
 
 	}
 
@@ -148,7 +151,7 @@ public class SimpleCountDownLatchDemo {
 		public void run() {
 			try {
 				startSignal.await(); // 等待开始执行信号的发布
-				System.out.println("[子线程]做第"+index+"件事情！做事情的实时count："+doneSignal.getCount()+",开始信号的实时count："+startSignal.getCount());
+				System.out.println("[子线程]第"+index+"位小伙伴去上厕所了！还有："+(doneSignal.getCount()-1)+"个人在外面排队,开始信号的实时count："+startSignal.getCount());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
@@ -165,19 +168,20 @@ public class SimpleCountDownLatchDemo {
 
 ```log
 
-[主线程]开始做事情：
-[子线程]做第1件事情！做事情的实时count：10,开始信号的实时count：0
-[子线程]做第2件事情！做事情的实时count：9,开始信号的实时count：0
-[子线程]做第3件事情！做事情的实时count：8,开始信号的实时count：0
-[子线程]做第4件事情！做事情的实时count：7,开始信号的实时count：0
-[子线程]做第5件事情！做事情的实时count：6,开始信号的实时count：0
-[子线程]做第6件事情！做事情的实时count：5,开始信号的实时count：0
-[子线程]做第7件事情！做事情的实时count：4,开始信号的实时count：0
-[子线程]做第8件事情！做事情的实时count：3,开始信号的实时count：0
-[子线程]做第9件事情！做事情的实时count：2,开始信号的实时count：0
-[子线程]做第10件事情！做事情的实时count：1,开始信号的实时count：0
-[主线程]做事情的实时count：0
-[主线程]ok！所有事情完成！
+[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：
+[子线程]第1位小伙伴去上厕所了！还有：9个人在外面排队,开始信号的实时count：0
+[子线程]第2位小伙伴去上厕所了！还有：8个人在外面排队,开始信号的实时count：0
+[子线程]第3位小伙伴去上厕所了！还有：7个人在外面排队,开始信号的实时count：0
+[子线程]第4位小伙伴去上厕所了！还有：6个人在外面排队,开始信号的实时count：0
+[子线程]第5位小伙伴去上厕所了！还有：5个人在外面排队,开始信号的实时count：0
+[子线程]第6位小伙伴去上厕所了！还有：4个人在外面排队,开始信号的实时count：0
+[子线程]第7位小伙伴去上厕所了！还有：3个人在外面排队,开始信号的实时count：0
+[子线程]第8位小伙伴去上厕所了！还有：2个人在外面排队,开始信号的实时count：0
+[子线程]第9位小伙伴去上厕所了！还有：1个人在外面排队,开始信号的实时count：0
+[子线程]第10位小伙伴去上厕所了！还有：0个人在外面排队,开始信号的实时count：0
+[主线程]还有：0个人在排队
+[主线程]我：ok！都上完了，我们就走吧！
+
 
 
 ```
@@ -230,11 +234,11 @@ public class SimpleCountDownLatchDemo {
     
   ```java
     
-  System.out.println("[主线程]开始做事情：");
+  System.out.println("[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：");
   startSignal.countDown();// 开始执行啦
   doneSignal.await();// 等待所有的线程执行完毕
-  System.out.println("[主线程]做事情的实时count："+doneSignal.getCount());
-  System.out.println("[主线程]ok！所有事情完成！");
+  System.out.println("[主线程]还有："+doneSignal.getCount()+"个人在排队");
+  System.out.println("[主线程]我：ok！都上完了，我们就走吧！");
 		
   ```
 
