@@ -185,11 +185,14 @@ Ok
  6、就这样，当10个线程运行完以后，由于每个线程执行完都会对count减1。自然10个线程执行完以后，`doneSignal` 的count就为0。
     我们知道，当count为0时，之前一直await的main线程，也就是主线程就继续往下执行了。
     
+    
     main线程的代码：
     
     ```java
+    
     	System.out.println("begin------------");
 		startSignal.countDown();// 开始执行啦
 		doneSignal.await();// 等待所有的线程执行完毕
 		System.out.println("Ok");
+		
     ```
