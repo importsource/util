@@ -24,9 +24,9 @@ CountDownLatch提供了一种同步机制，可以允许一个或多个线程等
 
 ### 2、When should we use CountDownLatch in Java :
 
-1、Use CountDownLatch when one of Thread like main thread, require to wait for one or more thread to complete, before its start doing processing.
+Use CountDownLatch when one of Thread like main thread, require to wait for one or more thread to complete, before its start doing processing.
 
-当我们希望main线程里，必须等待其他线程执行完以后然后继续往下执行。这个时候，我们就需要用到`CountDownLatch`。
+当我们希望在main线程里，必须等待其他子线程执行完以后继续往下执行。这个时候，我们就需要用到`CountDownLatch`。
 
 按照上面的需求，在你不知道CountDownLatch之前，你也许会这样写你的代码：
 
