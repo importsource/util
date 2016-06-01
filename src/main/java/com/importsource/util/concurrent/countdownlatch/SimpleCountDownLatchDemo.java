@@ -18,10 +18,13 @@ public class SimpleCountDownLatchDemo {
 			new Thread(new Worker(i,doneSignal, startSignal)).start();// 线程启动了
 		}
 		
-		System.out.println("begin------------");
+		System.out.println("[主线程]开始做事情：");
 		startSignal.countDown();// 开始执行啦
+		
+		
 		doneSignal.await();// 等待所有的线程执行完毕
-		System.out.println("Ok");
+		System.out.println("[主线程]做事情的实时count："+doneSignal.getCount());
+		System.out.println("[主线程]ok！所有事情完成！");
 
 	}
 
@@ -39,7 +42,7 @@ public class SimpleCountDownLatchDemo {
 		public void run() {
 			try {
 				startSignal.await(); // 等待开始执行信号的发布
-				System.out.println("sdfsdfsdf"+index);
+				System.out.println("[子线程]做第"+index+"件事情！做事情的实时count："+doneSignal.getCount()+",开始信号的实时count："+startSignal.getCount());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
