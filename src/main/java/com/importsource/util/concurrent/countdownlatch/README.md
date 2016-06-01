@@ -1,4 +1,4 @@
-## Java 并发编程系列： CountDownLatch 
+## Java 并发编程系列： CountDownLatch （上厕所的案例）
 
 ［原创］ 贺卓凡  ImportSource （v0.1）
 
