@@ -7,6 +7,15 @@ A synchronization aid that allows one or more threads to wait until a set of ope
 它提供了一种同步机制，可以允许一个或多个线程等待直到其他的线程上的一系列操作完成。
 
 
+要想学会使用CountDownLatch，只要搞清楚下面三个点，就可以了：
+
+1、指定一个count。比如：`CountDownLatch startSignal = new CountDownLatch(1);// 开始执行信号`
+
+2、明白`await()`方法。
+
+3、明白`countDown()`方法。
+
+
 使用了CountDownLatch后，像下面这样：
 
 ``` java
