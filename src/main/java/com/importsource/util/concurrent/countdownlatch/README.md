@@ -122,7 +122,7 @@ static class Worker implements Runnable {
 	}
 
 ```
-输出结果是一个顺序的，阻塞的状态：
+输出结果是一个顺序的，与主线程同步的状态：
 
 ```log
 
