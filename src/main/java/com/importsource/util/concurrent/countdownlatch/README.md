@@ -184,13 +184,13 @@ Ok
     我们知道，当count为0时，之前一直await的main线程，也就是主线程就继续往下执行了。
     
     
-    main线程的代码：
+  main线程的代码：
     
-    ```java
+  ```java
     
     	System.out.println("begin------------");
 		startSignal.countDown();// 开始执行啦
 		doneSignal.await();// 等待所有的线程执行完毕
 		System.out.println("Ok");
 		
-    ```
+  ```
