@@ -16,7 +16,14 @@ A synchronization aid that allows one or more threads to wait until a set of ope
 3、明白`countDown()`方法。这个方法负责递减，每次减1。
 
 
-### 2、
+### 2、Why use CountDownLatch?
+
+### 3、When should we use CountDownLatch in Java :
+
+1、Use CountDownLatch when one of Thread like main thread, require to wait for one or more thread to complete, before its start doing processing.
+
+
+
 
 使用了CountDownLatch后，像下面这样：
 
