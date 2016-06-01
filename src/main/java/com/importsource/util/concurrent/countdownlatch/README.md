@@ -1,6 +1,6 @@
 ## CountDownLatch
 
-### 1、什么是CountDownLatch？
+### 1、What is CountDownLatch？
 
 A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes. 
 
@@ -11,10 +11,12 @@ A synchronization aid that allows one or more threads to wait until a set of ope
 
 1、指定一个count。比如：`CountDownLatch startSignal = new CountDownLatch(1);// 开始执行信号`
 
-2、明白`await()`方法。
+2、明白`await()`方法。当count变为0的时候就继续往下执行，没到0就一直卡着。
 
-3、明白`countDown()`方法。
+3、明白`countDown()`方法。这个方法负责递减，每次减1。
 
+
+### 2、
 
 使用了CountDownLatch后，像下面这样：
 
