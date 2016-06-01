@@ -1,6 +1,6 @@
-## Java 并发编程系列： CountDownLatch
+## Java 并发编程系列： CountDownLatch 
 
-［原创］ 贺卓凡  ImportSource
+［原创］ 贺卓凡  ImportSource （v0.1）
 
 
 ### 1、What is CountDownLatch？
