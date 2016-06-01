@@ -26,13 +26,35 @@ A synchronization aid that allows one or more threads to wait until a set of ope
 
 ```java
 
-public static void main(String[] args) throws InterruptedException {
-	System.out.println("start");
-	for (int i = 1; i <= N; i++) {
-		new Thread(new Worker(i)).start();// 线程启动了
+/**
+ * 示例：普通线程的使用举例
+ * 
+ * @author hezf
+ */
+public class NormalThreadDemo {
+	private static final int N = 10;
+
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println("[主线程]开始做事情：");
+		for (int i = 1; i <= N; i++) {
+			new Thread(new Worker(i)).start();// 线程启动了
+		}
+		System.out.println("[主线程]ok！所有事情完成！");
 	}
-	System.out.println("end");
+
+	static class Worker implements Runnable {
+		private int index;
+
+		Worker(int index) {
+			this.index = index;
+		}
+
+		public void run() {
+			System.out.println("[子线程]做第"+index+"件事情！");
+		}
+	}
 }
+
 	
 ```
 
@@ -40,36 +62,38 @@ public static void main(String[] args) throws InterruptedException {
 
  ```log
  
- start
-sdfsdfsdf1
-sdfsdfsdf2
-sdfsdfsdf3
-sdfsdfsdf4
-sdfsdfsdf5
-sdfsdfsdf6
-sdfsdfsdf7
-sdfsdfsdf8
-sdfsdfsdf9
-sdfsdfsdf10
-end
+[主线程]开始做事情：
+[子线程]做第1件事情！
+[子线程]做第2件事情！
+[子线程]做第3件事情！
+[子线程]做第4件事情！
+[子线程]做第5件事情！
+[子线程]做第6件事情！
+[子线程]做第7件事情！
+[子线程]做第8件事情！
+[子线程]做第9件事情！
+[子线程]做第10件事情！
+[主线程]ok！所有事情完成！
+
 
  ```
 然而真正的输出结果是这样的：
 
 ```log
 
-start
-end
-sdfsdfsdf1
-sdfsdfsdf2
-sdfsdfsdf3
-sdfsdfsdf4
-sdfsdfsdf5
-sdfsdfsdf6
-sdfsdfsdf7
-sdfsdfsdf8
-sdfsdfsdf9
-sdfsdfsdf10
+[主线程]开始做事情：
+[主线程]ok！所有事情完成！
+[子线程]做第1件事情！
+[子线程]做第2件事情！
+[子线程]做第3件事情！
+[子线程]做第4件事情！
+[子线程]做第5件事情！
+[子线程]做第6件事情！
+[子线程]做第7件事情！
+[子线程]做第8件事情！
+[子线程]做第9件事情！
+[子线程]做第10件事情！
+
 
 ```
 
@@ -78,7 +102,15 @@ sdfsdfsdf10
 使用了CountDownLatch后，像下面这样：
 
 ``` java
-public static void main(String[] args) throws InterruptedException {
+/**
+ * 示例：CountDownLatch的使用举例
+ * 
+ * @author hezf
+ */
+public class SimpleCountDownLatchDemo {
+	private static final int N = 10;
+
+	public static void main(String[] args) throws InterruptedException {
 		CountDownLatch doneSignal = new CountDownLatch(N);
 		CountDownLatch startSignal = new CountDownLatch(1);// 开始执行信号
 
@@ -86,17 +118,17 @@ public static void main(String[] args) throws InterruptedException {
 			new Thread(new Worker(i,doneSignal, startSignal)).start();// 线程启动了
 		}
 		
-		System.out.println("begin------------");
+		System.out.println("[主线程]开始做事情：");
 		startSignal.countDown();// 开始执行啦
+		
+		
 		doneSignal.await();// 等待所有的线程执行完毕
-		System.out.println("Ok");
+		System.out.println("[主线程]做事情的实时count："+doneSignal.getCount());
+		System.out.println("[主线程]ok！所有事情完成！");
 
 	}
-```
 
-```java
-
-static class Worker implements Runnable {
+	static class Worker implements Runnable {
 		private final CountDownLatch doneSignal;
 		private final CountDownLatch startSignal;
 		private int index;
@@ -110,7 +142,7 @@ static class Worker implements Runnable {
 		public void run() {
 			try {
 				startSignal.await(); // 等待开始执行信号的发布
-				System.out.println("sdfsdfsdf"+index);
+				System.out.println("[子线程]做第"+index+"件事情！做事情的实时count："+doneSignal.getCount()+",开始信号的实时count："+startSignal.getCount());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
@@ -118,25 +150,29 @@ static class Worker implements Runnable {
 			}
 		}
 	}
+}
 
 ```
+
+
 输出结果是一个顺序的，与主线程同步的状态：
 
 ```log
 
+[主线程]开始做事情：
+[子线程]做第1件事情！做事情的实时count：10,开始信号的实时count：0
+[子线程]做第2件事情！做事情的实时count：9,开始信号的实时count：0
+[子线程]做第3件事情！做事情的实时count：8,开始信号的实时count：0
+[子线程]做第4件事情！做事情的实时count：7,开始信号的实时count：0
+[子线程]做第5件事情！做事情的实时count：6,开始信号的实时count：0
+[子线程]做第6件事情！做事情的实时count：5,开始信号的实时count：0
+[子线程]做第7件事情！做事情的实时count：4,开始信号的实时count：0
+[子线程]做第8件事情！做事情的实时count：3,开始信号的实时count：0
+[子线程]做第9件事情！做事情的实时count：2,开始信号的实时count：0
+[子线程]做第10件事情！做事情的实时count：1,开始信号的实时count：0
+[主线程]做事情的实时count：0
+[主线程]ok！所有事情完成！
 
-begin------------
-sdfsdfsdf1
-sdfsdfsdf2
-sdfsdfsdf3
-sdfsdfsdf4
-sdfsdfsdf5
-sdfsdfsdf6
-sdfsdfsdf7
-sdfsdfsdf8
-sdfsdfsdf9
-sdfsdfsdf10
-Ok
 
 ```
 
@@ -188,9 +224,10 @@ Ok
     
   ```java
     
-   System.out.println("begin------------");
-   startSignal.countDown();// 开始执行啦
-   doneSignal.await();// 等待所有的线程执行完毕
-   System.out.println("Ok");
+  System.out.println("[主线程]开始做事情：");
+  startSignal.countDown();// 开始执行啦
+  doneSignal.await();// 等待所有的线程执行完毕
+  System.out.println("[主线程]做事情的实时count："+doneSignal.getCount());
+  System.out.println("[主线程]ok！所有事情完成！");
 		
   ```
