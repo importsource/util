@@ -18,13 +18,13 @@ public class SimpleCountDownLatchDemo {
 			new Thread(new Worker(i,doneSignal, startSignal)).start();// 线程启动了
 		}
 		
-		System.out.println("[主线程]开始做事情：");
+		System.out.println("[主线程]我：你们去上厕所吧，貌似只有一个坑，排好队一个个来，我在这等你们：");
 		startSignal.countDown();// 开始执行啦
 		
 		
 		doneSignal.await();// 等待所有的线程执行完毕
-		System.out.println("[主线程]做事情的实时count："+doneSignal.getCount());
-		System.out.println("[主线程]ok！所有事情完成！");
+		System.out.println("[主线程]还有："+doneSignal.getCount()+"个人在排队");
+		System.out.println("[主线程]我：ok！都上完了，我们就走吧！");
 
 	}
 
@@ -42,7 +42,7 @@ public class SimpleCountDownLatchDemo {
 		public void run() {
 			try {
 				startSignal.await(); // 等待开始执行信号的发布
-				System.out.println("[子线程]做第"+index+"件事情！做事情的实时count："+doneSignal.getCount()+",开始信号的实时count："+startSignal.getCount());
+				System.out.println("[子线程]第"+index+"位小伙伴去上厕所了！还有："+(doneSignal.getCount()-1)+"个人在外面排队,开始信号的实时count："+startSignal.getCount());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {

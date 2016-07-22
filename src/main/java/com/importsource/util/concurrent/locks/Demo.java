@@ -1,14 +1,15 @@
 package com.importsource.util.concurrent.locks;
 
+import java.util.concurrent.CyclicBarrier;
 
 public class Demo {
 
 	public static void main(String[] args) {
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 100; i++) {
         	new Thread(new Worker()).start();//线程启动了
 		}
         
-        System.out.println(X.count);
+       
 	}
 	
 	static class Worker implements Runnable {
