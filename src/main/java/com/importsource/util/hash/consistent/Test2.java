@@ -6,41 +6,27 @@ import java.util.Map;
 
 import com.importsource.util.hash.consistent.ConsistentHash.HashFunction;
 
-public class Test {
+public class Test2 {
 
 	public static void main(String[] args) {
 		//initial the server set
 		HashSet< String> set = new HashSet< String>();  
-        set.add( "A" );  
-        set.add( "B" );  
-        set.add( "C" );  
-        set.add( "D" );  
+        set.add( "192.168.1.2" );  
+        set.add( "192.168.1.3" );  
+        set.add( "192.168.1.4" );  
+        set.add( "192.168.1.5" );  
 
         //四个ip
         Map< String, Integer> map = new HashMap< String, Integer>();  
 
         //new a consistent hash
         ConsistentHash<String> consistentHash = new ConsistentHash<String>( new HashFunction(), 1000, set);  
+        String key = consistentHash.get("user:hezhuofan");  
+        System.out.println("key:"+key);
+               
 
-        
-        
-        
-         int count = 10000;  
-
-         //循环模拟
-         for (int i = 0; i < count; i++) {  
-        	 
-               String key = consistentHash.get(i);  
-               if (map.containsKey(key)) {  
-                    map.put(consistentHash.get(i), map.get(key) + 1);  
-              } else {  
-                    map.put(consistentHash.get(i), 1);  
-              }  
-               // System.out.println(key);  
-        }  
-
-        consistentHash.showServer(map);  
-        map.clear();  
+       // consistentHash.showServer(map);  
+        /*map.clear();  
         consistentHash.remove( "A" );  
 
         System. out .println("------- remove A" );  
@@ -88,7 +74,7 @@ public class Test {
 
          consistentHash.showServer(map); 
          
-       System.out.println(consistentHash.get("B"));
+       System.out.println(consistentHash.get("B"));*/
 
 	}
 
